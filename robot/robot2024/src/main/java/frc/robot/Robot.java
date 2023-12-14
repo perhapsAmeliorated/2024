@@ -9,8 +9,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 
 
@@ -39,13 +37,11 @@ public class Robot extends TimedRobot {
     // result in both sides moving forward. Depending on how your robot's
     // gearbox is constructed, you might have to invert the left side instead.
     //Also something like this happens at the bottom so we might not need this at all
-    rightMotor1.setInverted(true);
-    rightMotor2.setInverted(true);
 
 
-    m_myRobotFront = new DifferentialDrive(leftMotor1, rightMotor1);
-    m_myRobotBack = new DifferentialDrive(leftMotor2, rightMotor2);
-    m_leftStick = new Joystick(0);
+    m_myRobotFront = new DifferentialDrive(leftMotor1, leftMotor1);
+    m_myRobotBack = new DifferentialDrive(rightMotor2, rightMotor2);
+    m_leftStick = new Joystick(1);
     m_rightStick = new Joystick(1);
   }
 
@@ -54,7 +50,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_myRobotFront.tankDrive(m_leftStick.getY(), -m_rightStick.getY()); //+ left, inverse I changed these from all negative. Needed?
-    m_myRobotBack.tankDrive(-m_leftStick.getY(), m_rightStick.getY()); //+ right, inverse
+    m_myRobotFront.arcadeDrive(m_leftStick.getRawAxis(1), m_rightStick.getRawAxis(1));
+    m_myRobotBack.arcadeDrive(m_leftStick.getRawAxis(5), m_rightStick.getRawAxis(5));
+
   }
 }
